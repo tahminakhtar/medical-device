@@ -23,12 +23,10 @@ const Dashboard = () => {
                 </section>
                 {/* Main content */}
                 <section className="content">
-                    <div class="container-fluid">
-                        <div className="row">
-                            <ModelTypes />
-                            <ModelDatas />
-                        </div>
-                    </div>
+                    {/* <div className="row"> */}
+                    {/* <ModelTypes /> */}
+                    <ModelDatas />
+                    {/* </div> */}
                 </section>
             </div>
         </OverviewContextProvider>

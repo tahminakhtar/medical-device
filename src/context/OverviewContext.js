@@ -35,8 +35,10 @@ const OverviewContextProvider = (props) => {
         })
     }, []);
 
+
     const values = {
         ...state,
+        authToken,
         dispatchOverview,
     }
     return (
