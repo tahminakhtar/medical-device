@@ -1,17 +1,19 @@
-import React, { useContext, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import axios from "axios";
 
 import { API_URL } from '../../../config/config';
 import { OverviewContext } from '../../../context/OverviewContext';
+import { IBrand, IModel } from '../../../interfaces/IModelType';
+import { IModelData } from '../../../interfaces/IModelData';
 
-const ModelTypes = () => {
+const ModelTypes: FC = () => {
     const { modelDatas, modelTypes, error, dispatchOverview, authToken } = useContext(OverviewContext);
     const [submit, setSubmit] = useState(false);
     const [state, setstate] = useState({
         BrandId: '',
         Name: '',
     });
-    const modelDataList = modelDatas ? modelDatas.map((list, index) => {
+    const modelDataList = modelDatas ? modelDatas.map((list: IModelData, index: any) => {
         return (
             <tr key={list.Id}>
                 <th scope="row">{index + 1}</th>
@@ -23,14 +25,14 @@ const ModelTypes = () => {
     }) : [];
 
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         let { name, value } = e.target;
         if (name == 'TypeId')
-            value = parseInt(value);
+            value = Number(value);
         setstate({ ...state, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         setSubmit(true);
         axios.get(`${API_URL}/overview/modeldata/${state.BrandId}/${state.Name}`, authToken).then((res) => {
@@ -48,7 +50,7 @@ const ModelTypes = () => {
                             <div className="col-sm-5">
                                 <select className="form-control" onChange={handleChange} name="BrandId" value={state.BrandId}>
                                     <option value="">Select Brand</option>
-                                    {modelTypes.map((el) => {
+                                    {modelTypes.map((el: IBrand) => {
                                         return (
                                             <option key={el.Id} value={el.BrandId}>{el.BrandId}</option>
                                         )
@@ -58,7 +60,7 @@ const ModelTypes = () => {
                             <div className="col-sm-5">
                                 <select className="form-control" onChange={handleChange} name="Name" value={state.Name}>
                                     <option value="">Select Model</option>
-                                    {modelTypes.map((el) => {
+                                    {modelTypes.map((el: IModel) => {
                                         return (
                                             <option key={el.Id} value={el.Name}>{el.Name}</option>
                                         )
@@ -66,7 +68,7 @@ const ModelTypes = () => {
                                 </select>
                             </div>
                             <div className="col-sm-2">
-                                <button type="submit" disabled={submit ? "disabled" : ""} className="btn btn-outline-primary">
+                                <button type="submit" disabled={submit ? true : false} className="btn btn-outline-primary">
                                     {submit ? <i className="fa fa-spinner fa-spin mr-1"></i> : ""}
                                     Search
                                 </button>

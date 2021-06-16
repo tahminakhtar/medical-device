@@ -1,9 +1,10 @@
+import { FC } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AuthContextProvider from './context/AuthContext';
 
 import Home from "./Home";
 
-function App() {
+const App: FC = () => {
   return (
     <AuthContextProvider>
       <Router>

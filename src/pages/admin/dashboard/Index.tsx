@@ -1,8 +1,9 @@
-import React from 'react'
+import { FC } from 'react'
 import OverviewContextProvider from '../../../context/OverviewContext';
 import ModelTypes from './ModelTypes';
 import ModelDatas from './ModelDatas';
-const Dashboard = () => {
+const Dashboard: FC = () => {
+    document.title = 'Dashboard'
     return (
         <OverviewContextProvider>
             <div className="content-wrapper">

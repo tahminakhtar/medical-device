@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, useReducer } from 'react';
 import { API_URL } from '../config/config';
+import { accessHeader } from '../config/accessHeader';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { deviceTypeReducer } from './reducers/deviceTypeReducer';
@@ -17,13 +18,7 @@ const DeviceTypeContextProvider = (props) => {
     }
     const [state, dispatchDeviceType] = useReducer(deviceTypeReducer, initialState)
     const { logins } = useContext(AuthContext);
-    const [accessToken, setAccessToken] = useState(() => {
-        return logins ? logins.accessToken : '';
-    });
-
-    var authToken = {
-        headers: { "authorization": `${accessToken}` }
-    };
+    const authToken = accessHeader(logins.accessToken);
 
     useEffect(() => {
         axios.get(`${API_URL}/devicetype?limit=${state.itemsCountPerPage}&page=${state.activePage}`, authToken)
@@ -45,7 +40,7 @@ const DeviceTypeContextProvider = (props) => {
                 console.log(res.data);
                 state.totalItemsCount = res.data[1];
                 state.activePage = pageNumber;
-                dispatchDeviceType({ type: 'USERSLIST', deviceTypes: res.data[0] })
+                dispatchDeviceType({ type: 'DEVICE_TYPES', deviceTypes: res.data[0] })
             }).catch(err => {
                 dispatchDeviceType({ type: 'ERROR', error: err.response.data });
             })

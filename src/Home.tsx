@@ -1,7 +1,7 @@
-import React from 'react'
+import { FC } from 'react'
 import Routes from './Routes'
 
-const Home = () => {
+const Home: FC = () => {
    return (
       <>
          <Routes />

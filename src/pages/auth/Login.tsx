@@ -1,4 +1,4 @@
-import React, { useState, useContext, } from 'react'
+import React, { FC, useState, useContext, } from 'react'
 import axios from "axios";
 import {
     Redirect,
@@ -6,8 +6,10 @@ import {
 
 import { AuthContext } from '../../context/AuthContext';
 import { API_URL } from "../../config/config";
-
-const Login = (props) => {
+interface Props {
+    props: any;
+}
+const Login: FC<Props> = ({ props }) => {
     const { dispatch, logins } = useContext(AuthContext);
     const [submit, setSubmit] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -23,12 +25,12 @@ const Login = (props) => {
 
     const [isError, setIsError] = useState(false);
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setCredential({ ...credential, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setSubmit(true);
         axios
@@ -112,7 +114,7 @@ const Login = (props) => {
                             </div>
                             <div className="row">
                                 <div className="col-12 text-right">
-                                    <button type="submit" disabled={submit ? "disabled" : ""} className="btn btn-outline-primary">
+                                    <button type="submit" disabled={submit ? true : false} className="btn btn-outline-primary">
                                         {submit ? <i className="fa fa-spinner fa-spin mr-1"></i> : ""}
                                         Sign In
                                     </button>

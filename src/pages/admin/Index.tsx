@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { FC, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import {
     Switch,
@@ -15,7 +15,7 @@ import Users from './users/Index';
 import DeviceTypes from './device-types/Index';
 import ModelTypes from './model-types/Index';
 
-function Index() {
+const Index: FC = () => {
     let { path } = useRouteMatch();
     const { logins } = useContext(AuthContext);
     if (!logins.isLogin) {

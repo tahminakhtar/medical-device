@@ -6,7 +6,7 @@ import { OverviewContext } from '../../../context/OverviewContext';
 const ModelTypes = () => {
     const { modelTypes, error } = useContext(OverviewContext);
 
-    const modelTypeList = modelTypes ? modelTypes.map((list, index) => {
+    const modelTypeList = modelTypes ? modelTypes.map((list: any, index: number) => {
         return (
             <tr key={list.Id}>
                 <th scope="row">{index + 1}</th>

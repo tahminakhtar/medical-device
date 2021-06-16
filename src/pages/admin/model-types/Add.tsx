@@ -4,29 +4,42 @@ import axios from "axios";
 import { API_URL } from '../../../config/config';
 import { ModelTypeContext } from '../../../context/ModelTypeContext';
 import { DeviceTypeContext } from '../../../context/DeviceTypeContext';
+interface ModelType {
+    BrandId: string,
+    Name: string,
+    TypeId: number,
+    Comment: string,
+}
+interface Errors {
+    BrandId?: string,
+    Name?: string,
+    TypeId?: string,
+    Comment?: string,
+}
+
 
 const ModelTypeList = () => {
     const { authToken, } = useContext(ModelTypeContext);
     const { deviceTypes, } = useContext(DeviceTypeContext);
-    const [submit, setSubmit] = useState(false);
-    const [message, setMsg] = useState('');
-    const [state, setstate] = useState({
+    const [submit, setSubmit] = useState<boolean>(false);
+    const [message, setMsg] = useState<string>('');
+    const [state, setstate] = useState<ModelType>({
+        BrandId: '',
+        Name: '',
+        TypeId: 1,
+        Comment: '',
+    });
+
+    const [errors, setErrors] = useState<Errors>({
         BrandId: '',
         Name: '',
         TypeId: '',
         Comment: '',
     });
 
-    const [errors, setErrors] = useState({
-        BrandId: '',
-        Name: '',
-        TypeId: '',
-        Comment: '',
-    });
+    const [isError, setIsError] = useState<boolean>(false);
 
-    const [isError, setIsError] = useState(false);
-
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         let { name, value } = e.target;
         if (name == 'TypeId')
             value = parseInt(value);
@@ -42,11 +55,12 @@ const ModelTypeList = () => {
         setstate({
             BrandId: '',
             Name: '',
-            TypeId: '',
+            TypeId: 1,
             Comment: '',
         })
+        setIsError(false);
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         setSubmit(true);
         axios
@@ -54,9 +68,8 @@ const ModelTypeList = () => {
             .then((resp) => {
                 console.log(resp.data);
                 setSubmit(false);
-                setIsError(false);
                 resetData();
-                setMsg(<p className="text-success" >Save successfully</p>)
+                setMsg('<p className="text-success" >Save successfully</p>')
             })
             .catch((err) => {
                 setSubmit(false);
@@ -122,7 +135,7 @@ const ModelTypeList = () => {
                                 <div className="input-group mb-3">
                                     <select className={`form-control ${isError && errors.TypeId ? 'is-invalid' : ''}`} onChange={handleChange} name="TypeId" value={state.TypeId}>
                                         <option value="">Select</option>
-                                        {deviceTypes.map((el) => {
+                                        {deviceTypes.map((el: any) => {
                                             return (
                                                 <option key={el.Id} value={el.Id}>{el.Description}</option>
                                             )
@@ -146,7 +159,7 @@ const ModelTypeList = () => {
                             </div>
                             <div className="row">
                                 <div className="col-12 text-right">
-                                    <button type="submit" disabled={submit ? "disabled" : ""} className="btn btn-outline-primary">
+                                    <button type="submit" disabled={submit ? true : false} className="btn btn-outline-primary">
                                         {submit ? <i className="fa fa-spinner fa-spin mr-1"></i> : ""}
                                         Save
                                     </button>

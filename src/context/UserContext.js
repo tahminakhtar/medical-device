@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, useReducer } from 'react';
 import { API_URL } from '../config/config';
+import { accessHeader } from '../config/accessHeader';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { userReducer } from './reducers/userReducer';
@@ -17,13 +18,7 @@ const UserContextProvider = (props) => {
     }
     const [state, dispatchUser] = useReducer(userReducer, initialState)
     const { logins } = useContext(AuthContext);
-    const [accessToken, setAccessToken] = useState(() => {
-        return logins ? logins.accessToken : '';
-    });
-
-    var authToken = {
-        headers: { "authorization": `${accessToken}` }
-    };
+    const authToken = accessHeader(logins.accessToken);
 
     useEffect(() => {
         axios.get(`${API_URL}/users?limit=${state.itemsCountPerPage}&page=${state.activePage}&sortByDesc=id`, authToken).then((res) => {
